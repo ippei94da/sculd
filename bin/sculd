@@ -1,0 +1,44 @@
+#! /usr/bin/env ruby
+# coding: utf-8
+
+# Command 'norn' can show events and tasks.
+# Events include schedule and deadline(start and end).
+# Tasks  include deadline, reminder and todo.
+
+NORN_CONF = "#{ENV['HOME']}/.norn"
+
+require "pp"
+require "optparse"
+require "rubygems"
+gem "norn"
+require "norn"
+
+# option analysis
+OPTS = {}
+op = OptionParser.new
+op.on("-e day", "--event days", "Show events."){|v| OPTS[:event] = v}
+op.on("-t num", "--task num"  , "Show tasks." ){|v| OPTS[:task ] = v}
+op.parse!(ARGV)
+
+#num_day  = ARGV.shift.to_i
+#num_task = ARGV.shift.to_i
+OPTS[:event] ||= 0
+OPTS[:task ] ||= 0
+
+#begin
+#  lines = File.open(NORN_CONF, "r").readlines
+#rescue
+#  puts "~/.norn not exist. Exit."
+#  exit
+#end
+
+sm = Norn::Manager.new(NORN_CONF)
+sm.show(OPTS[:event], OPTS[:task])
+
+#while (true)
+#  s.show(OPTS[:event], OPTS[:task])
+#  command = STDIN.gets
+#  case
+#  when command == 
+#  end
+#end
