@@ -1,17 +1,17 @@
 #! /usr/bin/env ruby
 # coding: utf-8
 
-# Command 'norn' can show events and tasks.
+# Command 'sculd' can show events and tasks.
 # Events include schedule and deadline(start and end).
 # Tasks  include deadline, reminder and todo.
 
-NORN_CONF = "#{ENV['HOME']}/.norn"
+SCULD_DAT = "#{ENV['HOME']}/.sculd"
 
 require "pp"
 require "optparse"
 require "rubygems"
-gem "norn"
-require "norn"
+gem "sculd"
+require "sculd"
 
 # option analysis
 OPTS = {}
@@ -26,13 +26,13 @@ OPTS[:event] ||= 0
 OPTS[:task ] ||= 0
 
 #begin
-#  lines = File.open(NORN_CONF, "r").readlines
+#  lines = File.open(SCULD_DAT, "r").readlines
 #rescue
-#  puts "~/.norn not exist. Exit."
+#  puts "~/.sculd not exist. Exit."
 #  exit
 #end
 
-sm = Norn::Manager.new(NORN_CONF)
+sm = Sculd::Manager.new(SCULD_DAT)
 sm.show(OPTS[:event], OPTS[:task])
 
 #while (true)
