@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 class Sculd::Manager
-  public load_file
+  #public load_file
 end
 
 describe "Manager" do

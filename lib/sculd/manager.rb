@@ -43,11 +43,11 @@ class Sculd::Manager
 
   # read, parse file and set data to @events and @tasks.
   def load_file(file)
-    @events = []
-    @tasks  = []
+    @jobs = []
 
     File.open(file, "r").readlines.each do |line|
-      mimiu Sculd::Job.parse(line)
+      job = Sculd::Job.parse(line)
+      @jobs << job if job
     end
 
   end
