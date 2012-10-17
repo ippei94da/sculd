@@ -17,8 +17,39 @@ class Sculd::Manager
   def self.parse_str(str)
   end
 
+  def show(num_event, num_task)
+    show_event(num_event)
+    show_task(num_task)
+  end
+
+  private
+
+  # read, parse file and set data to @events and @tasks.
+  def load_file(file)
+    @jobs = []
+
+    File.open(file, "r").readlines.each_with_index do |line, index|
+      job = Sculd::Job.detect(line, index)
+      @jobs << job if job
+    end
+  end
+
+  # Return a hash of dates and events.
+  # The eventes generated from @jobs sorted by date and time.
+  def days_events
+    return @jobs.map{|job| job.to_events}.flatten.sort_by {|job|
+      job.datetime
+    }
+  end
+
+  def categorize_date(jobs)
+    
+  end
+
   # Show events in 'num' days from todary.
   def show_event(num)
+    events.
+
     return if num == 0
     puts "Events:"
     @events.sort_by {|i| i.date}
@@ -37,19 +68,6 @@ class Sculd::Manager
     @tasks.sort_by {|i| i.priority}.reverse[0..(num-1)].each do |t|
       puts "  - " + t.string
     end
-  end
-
-  private
-
-  # read, parse file and set data to @events and @tasks.
-  def load_file(file)
-    @jobs = []
-
-    File.open(file, "r").readlines.each do |line|
-      job = Sculd::Job.parse(line)
-      @jobs << job if job
-    end
-
   end
 
 end
