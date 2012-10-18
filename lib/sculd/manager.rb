@@ -26,18 +26,18 @@ class Sculd::Manager
 
   # read, parse file and set data to @events and @tasks.
   def load_file(file)
-    @jobs = []
+    @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
-      job = Sculd::Job.detect(line, index)
-      @jobs << job if job
+      plans = Sculd::Plan.generate(line, index)
+      @plans << job if job
     end
   end
 
   # Return a hash of dates and events.
-  # The eventes generated from @jobs sorted by date and time.
+  # The eventes generated from @schedules sorted by date and time.
   def days_events
-    return @jobs.map{|job| job.to_events}.flatten.sort_by {|job|
+    return @schedules.map{|job| job.to_events}.flatten.sort_by {|job|
       job.datetime
     }
   end
