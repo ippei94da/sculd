@@ -14,9 +14,6 @@ class Sculd::Manager
     load_file(@source_file)
   end
   
-  def self.parse_str(str)
-  end
-
   def show(num_event, num_task)
     show_event(num_event)
     show_task(num_task)
@@ -29,46 +26,47 @@ class Sculd::Manager
     @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
-      plans = Sculd::Plan.generate(line, index)
-      @plans << job if job
+      plan = Sculd::Plan.generate(line, index)
+      @plans << plan if plan
+    end
+  end
+
+  # Show events in 'num' days from todary.
+  def show_event(num)
+    return if num == 0
+
+    events = days_events
+    today = Date.new
+    puts "Events:"
+    num.times do |i|
+      date = today + i
+      events[date].sort.each do |job|
+        puts job.to_s
+      end
     end
   end
 
   # Return a hash of dates and events.
   # The eventes generated from @schedules sorted by date and time.
   def days_events
-    return @schedules.map{|job| job.to_events}.flatten.sort_by {|job|
-      job.datetime
-    }
-  end
-
-  def categorize_date(jobs)
-    
-  end
-
-  # Show events in 'num' days from todary.
-  def show_event(num)
-    events.
-
-    return if num == 0
-    puts "Events:"
-    @events.sort_by {|i| i.date}
-    today = Date.new
-    num.times do |i|
-      date = today + i
-      puts "  - " + date
-      puts 
+    events = @plans.map{|plan| plan.to_events}.flatten
+    results = {}
+    events.each do |event|
+      date = event.date
+      results[date] ||= []
+      results[date] << event
     end
+    return results
   end
 
   # Show 'num' tasks of the highest priority.
   def show_task(num)
     return if num == 0
     puts "Tasks:"
-    @tasks.sort_by {|i| i.priority}.reverse[0..(num-1)].each do |t|
-      puts "  - " + t.string
+    plans = @plans.sort_by {|plan| plan.priority}.reverse
+    plans[0..(num-1)].each do |plan|
+      puts "  - " + plan.string
     end
   end
-
 end
 
