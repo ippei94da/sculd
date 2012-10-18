@@ -26,8 +26,16 @@ class Sculd::Manager
     @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
-      plan = Sculd::Plan.generate(line, index)
-      @plans << plan if plan
+      date, type, option = Sculd::Plan.parse(line)
+      case type
+      when "@"; plan_type = Sculd::Plan::Schedule
+      when "!"; plan_type = Sculd::Plan::Deadline
+      when "-"; plan_type = Sculd::Plan::Reminder
+      when "+"; plan_type = Sculd::Plan::Todo
+      else
+        next
+      end
+      @plans << plan_type.new(date, option, line)
     end
   end
 
