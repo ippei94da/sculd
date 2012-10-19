@@ -13,7 +13,7 @@ class Sculd::Manager
     @source_file = file
     load_file(@source_file)
   end
-  
+
   def show(num_event, num_task)
     show_event(num_event)
     show_task(num_task)
