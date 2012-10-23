@@ -9,9 +9,36 @@ describe Plan do # E.g., Klass
           a, b, c = Plan.parse(str)
           a.should == Date.new(2012, 10, 23)
           b.should == "!"
-          c.should == "deadlineA"
+          c.should == ""
         end
       end
+
+      str = '  [2012-10-23]! deadlineA with space at head'
+      context str do
+        it 'should return Date, !, deadlineA' do
+          a, b, c = Plan.parse(str)
+          a.should == Date.new(2012, 10, 23)
+          b.should == "!"
+          c.should == ""
+        end
+      end
+
+      str = '[2012-10-23]!10 deadline with option value'
+      context str do
+        it 'should return Date, !, deadlineA' do
+          a, b, c = Plan.parse(str)
+          a.should == Date.new(2012, 10, 23)
+          b.should == "!"
+          c.should == "10"
+        end
+      end
+
+      #str = '  [2012-10-23]% deadlineA'
+      #context str do
+      #  it 'should raise' do
+      #    TODO
+      #  end
+      #end
     end
   end
 end
