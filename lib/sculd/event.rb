@@ -7,12 +7,17 @@ require "sculd.rb"
 #
 #
 class Sculd::Event
-  attr_reader :datetime, :string
+  attr_reader :datetime, :description
 
   #
-  def initialize(datetime, string)
+  def initialize(datetime, description)
     @datetime = datetime
-    @string   = string
+    @description   = description
   end
+
+  def date
+    @datetime.to_date
+  end
+
 end
 

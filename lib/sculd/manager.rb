@@ -26,16 +26,21 @@ class Sculd::Manager
     @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
-      date, type, option = Sculd::Plan.parse(line)
-      case type
-      when "@"; plan_type = Sculd::Plan::Schedule
-      when "!"; plan_type = Sculd::Plan::Deadline
-      when "-"; plan_type = Sculd::Plan::Reminder
-      when "+"; plan_type = Sculd::Plan::Todo
-      else
-        next
+      begin
+        date, type, option = Sculd::Plan.parse(line)
+        next unless type
+        case type
+        when "@"; plan_type = Sculd::Plan::Schedule
+        when "!"; plan_type = Sculd::Plan::Deadline
+        when "-"; plan_type = Sculd::Plan::Reminder
+        when "+"; plan_type = Sculd::Plan::Todo
+        else
+          next
+        end
+        @plans << plan_type.new(date, option, line)
+      rescue
+        puts "error occured at #{index}: #{line}"
       end
-      @plans << plan_type.new(date, option, line)
     end
   end
 

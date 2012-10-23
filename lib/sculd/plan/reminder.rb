@@ -2,23 +2,24 @@
 # coding: utf-8
 
 require "sculd/event.rb"
+require "sculd/plan.rb"
 
 #
 #
 #
-class Sculd::Plan::Reminder
-  #
-  def priority
-    if Date.today < @date 
+class Sculd::Plan::Reminder < Sculd::Plan
+  # value of @option does not work
+  def priority(today = Date.now)
+    if today < @datetime
       return nil
     else
-      @option = 1 if @option < 1
-      return (Date.today - @day)/@option
+      #@option = 1 if @option < 1
+      return Sculd::Plan::REMINDER_PRIORITY - (today - @datetime) #/@option
     end
   end
 
-  def to_events
-    return [Sculd::Event.new(@date, @string)]
+  def events
+    return [Sculd::Event.new(@datetime, @description)]
   end
 end
 

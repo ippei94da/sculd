@@ -7,12 +7,12 @@ require "sculd.rb"
 #
 #
 class Sculd::Task
-  attr_reader :priority, :string
+  attr_reader :priority, :description
 
   #
-  def initialize(priority, string)
+  def initialize(priority, description)
     @priority = priority
-    @string   = string
+    @description   = description
   end
 end
 

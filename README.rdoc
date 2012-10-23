@@ -2,6 +2,25 @@
 
 Description goes here.
 
+
+
+4 types of Plan's; Reminder, Deadline, Schedule, Todo.
+  Reminder: nil till the date, REMINDER_PRIORITY at the date, decrease after that.
+  Deadline: nil till the date, REMINDER_PRIORITY at the beginning,
+    increase after that,
+    DEADLINE_PRIORITY at the deadline
+  Todo: nil till the date, REMINDER_PRIORITY at the date, increase after that,
+    DEADLINE_PRIORITY at the end.
+  Schedule: no priority.
+
+
+
+REMINDER_PRIORITY
+
+DEADLINE_PRIORITY
+
+
+
 == Contributing to sculd
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.

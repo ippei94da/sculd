@@ -30,12 +30,6 @@ describe Sculd::Plan do # E.g., Klass
         end
       end
 
-      #str = '  [2012-10-23]% deadlineA'
-      #context str do
-      #  it 'should raise' do
-      #    TODO
-      #  end
-      #end
     end
   end
 end

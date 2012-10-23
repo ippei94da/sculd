@@ -6,14 +6,14 @@ require "sculd/event.rb"
 #
 #
 #
-class Sculd::Plan::Schedule
+class Sculd::Plan::Schedule < Sculd::Plan
   #
-  def priority
-    return 0
+  def priority(today = Date.new)
+    return nil
   end
 
-  def to_events
-    Sculd::Event.new(@date, @string)
+  def events
+    return [Sculd::Event.new(@datetime, @description)]
   end
 end
 
