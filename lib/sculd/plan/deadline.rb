@@ -2,6 +2,7 @@
 # coding: utf-8
 
 require "sculd/event.rb"
+require "sculd/plan.rb"
 
 #
 #

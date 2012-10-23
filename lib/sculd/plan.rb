@@ -1,6 +1,11 @@
 #! /usr/bin/env ruby
 # coding: utf-8
 
+#require "sculd/plan/deadline.rb"
+#require "sculd/plan/reminder.rb"
+#require "sculd/plan/schedule.rb"
+#require "sculd/plan/todo.rb"
+
 #
 #
 #
@@ -10,20 +15,15 @@ class Sculd::Plan
   # Parse and return date, type, option.
   def self.parse(str)
     #/\[(\d{4})-(\d{2})-(\d{2})\]([@+!-])(\d*)/ =~ @line
-    #/\[(\d{4})-(\d{2})-(\d{2})\]([@+!-])(\d*)(.*)$/ =~ @line
     #/\[\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ line
-    str =~ /[(^]+)](.)(\S*)/
+    #/\[\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ str
+    #/\[(\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ str
+    /\[(\d{4}-\d{2}-\d{2})\]([@+!-])(\S*)(.*)$/ =~ str
+    #/\[(^]+)\](.)(\S*)/ =~ str 
     #date      = DateTime::new($1.to_i, $2.to_i, $3.to_i)
     date      = DateTime::parse $1
     type      = $2
-    option    = $3
-    #string    = $6
-    #results = {
-    #  :date      => date
-    #  :type      => type,
-    #  :period    => period,
-    #  :string    => string,
-    #}
+    option    = $3.to_s
     return date, type, option
   end
 
