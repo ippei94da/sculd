@@ -45,7 +45,7 @@ class Sculd::Manager
   end
 
   # Show events in 'num' days from todary.
-  def show_event(num)
+  def show_events(num, today = Date.new, io = $stdout)
     return if num == 0
 
     events = days_events
@@ -54,7 +54,7 @@ class Sculd::Manager
     num.times do |i|
       date = today + i
       events[date].sort.each do |job|
-        puts job.to_s
+        io.puts job.to_s
       end
     end
   end
@@ -62,7 +62,7 @@ class Sculd::Manager
   # Return a hash of dates and events.
   # The eventes generated from @schedules sorted by date and time.
   def days_events
-    events = @plans.map{|plan| plan.to_events}.flatten
+    events = @plans.map{|plan| plan.events}.flatten
     results = {}
     events.each do |event|
       date = event.date
@@ -73,7 +73,7 @@ class Sculd::Manager
   end
 
   # Show 'num' tasks of the highest priority.
-  def show_task(num)
+  def show_tasks(num)
     return if num == 0
     puts "Tasks:"
     plans = @plans.sort_by {|plan| plan.priority}.reverse
