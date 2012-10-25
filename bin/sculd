@@ -5,7 +5,7 @@
 # Events include schedule and deadline(start and end).
 # Tasks  include deadline, reminder and todo.
 
-SCULD_DAT = "#{ENV['HOME']}/.sculd"
+SCULD_DAT = "#{ENV['HOME']}/.sculd.dat"
 
 require "pp"
 require "optparse"
@@ -16,8 +16,8 @@ require "sculd"
 # option analysis
 OPTS = {}
 op = OptionParser.new
-op.on("-e day", "--event days", "Show events."){|v| OPTS[:event] = v}
-op.on("-t num", "--task num"  , "Show tasks." ){|v| OPTS[:task ] = v}
+op.on("-e day", "--event days", "Show events."){|v| OPTS[:event] = v.to_i}
+op.on("-t num", "--task num"  , "Show tasks." ){|v| OPTS[:task ] = v.to_i}
 op.parse!(ARGV)
 
 #num_day  = ARGV.shift.to_i

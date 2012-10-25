@@ -25,9 +25,9 @@ describe Sculd::Plan::Deadline do # E.g., Klass
           @d00.priority(today).should == 15000
         end
 
-        it 'return nil before the period.' do
+        it 'return 0 before the period.' do
           today = Date.new(2012, 10,  1)
-          @d00.priority(today).should == nil
+          @d00.priority(today).should == 0
         end
       end
     end

@@ -11,7 +11,7 @@ class Sculd::Plan::Reminder < Sculd::Plan
   # value of @option does not work
   def priority(today = Date.now)
     if today < @datetime
-      return nil
+      return 0
     else
       #@option = 1 if @option < 1
       return Sculd::Plan::REMINDER_PRIORITY - (today - @datetime) #/@option

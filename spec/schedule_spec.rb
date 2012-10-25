@@ -9,8 +9,8 @@ describe Sculd::Plan::Schedule do # E.g., Klass
 
     describe '#priority' do # ''
       context '' do
-        it 'should return nil' do
-          @s00.priority.should == nil
+        it 'should return 0' do
+          @s00.priority.should == 0
         end
       end
     end

@@ -11,9 +11,9 @@ describe Sculd::Plan::Todo do # E.g., Klass
     describe '#priority' do # ''
       context '' do
 
-        it 'return nil before the period.' do
+        it 'return 0 before the period.' do
           today = Date.new(2012, 10,  1)
-          @t00.priority(today).should == nil
+          @t00.priority(today).should == 0
         end
 
         it 'return REMINDER_PRIORITY when the day is today.' do
@@ -38,8 +38,8 @@ describe Sculd::Plan::Todo do # E.g., Klass
       context '' do
         it '' do
           @t00.events.size.should == 2
-          @t00.events[0].date.should == Date.new(2012, 10,  5)
-          @t00.events[1].date.should == Date.new(2012, 10, 15)
+          @t00.events[0].date.should == Date.new(2012, 10, 15)
+          @t00.events[1].date.should == Date.new(2012, 10, 25)
         end
       end
     end

@@ -8,13 +8,14 @@ require "sculd/plan.rb"
 #
 #
 class Sculd::Plan::Todo < Sculd::Plan
+
   #
   def priority(today)
     @option = 1 if @option < 1
     beginning = @datetime
     ending    = @datetime + @option
     if today < beginning
-      return nil
+      return 0
     elsif today <= ending
       rp = Sculd::Plan::REMINDER_PRIORITY
       dp = Sculd::Plan::DEADLINE_PRIORITY
@@ -26,8 +27,8 @@ class Sculd::Plan::Todo < Sculd::Plan
 
   def events
     results = []
-    results << Sculd::Event.new(@datetime - @option, @description)
     results << Sculd::Event.new(@datetime, @description)
+    results << Sculd::Event.new(@datetime + @option, @description)
     return results
   end
 end

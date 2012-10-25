@@ -9,7 +9,7 @@ require "sculd/event.rb"
 class Sculd::Plan::Schedule < Sculd::Plan
   #
   def priority(today = Date.new)
-    return nil
+    return 0
   end
 
   def events

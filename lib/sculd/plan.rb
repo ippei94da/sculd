@@ -12,6 +12,8 @@
 class Sculd::Plan
   class NotDefinedError < Exception; end
 
+  attr_reader :description
+
   REMINDER_PRIORITY = 10000
   DEADLINE_PRIORITY = 20000
 

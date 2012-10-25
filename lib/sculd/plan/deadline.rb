@@ -8,12 +8,12 @@ require "sculd/plan.rb"
 #
 #
 class Sculd::Plan::Deadline < Sculd::Plan
-  #
+
   def priority(today)
     @option = 1 if @option < 1
     beginning = @datetime - @option
     if today < beginning
-      return nil
+      return 0
     elsif today <= @datetime
       rp = Sculd::Plan::REMINDER_PRIORITY
       dp = Sculd::Plan::DEADLINE_PRIORITY
