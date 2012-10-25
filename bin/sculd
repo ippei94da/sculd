@@ -25,12 +25,18 @@ op.parse!(ARGV)
 OPTS[:event] ||= 0
 OPTS[:task ] ||= 0
 
-#begin
+if (( OPTS[:event] == 0) &&( OPTS[:task ] == 0))
+  puts "USAGE: sculd -e 7 -t 10"
+  exit
+end
+
+
+unless FileTest.exist? SCULD_DAT
 #  lines = File.open(SCULD_DAT, "r").readlines
 #rescue
-#  puts "~/.sculd not exist. Exit."
-#  exit
-#end
+  puts "Not found #{SCULD_DAT}. Exit."
+  exit
+end
 
 sm = Sculd::Manager.new(SCULD_DAT)
 sm.show(OPTS[:event], OPTS[:task])
