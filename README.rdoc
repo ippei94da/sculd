@@ -1,9 +1,5 @@
 = sculd
 
-Description goes here.
-
-
-
 4 types of Plan's; Reminder, Deadline, Schedule, Todo.
   Reminder: nil till the date, REMINDER_PRIORITY at the date, decrease after that.
   Deadline: nil till the date, REMINDER_PRIORITY at the beginning,
@@ -13,12 +9,7 @@ Description goes here.
     DEADLINE_PRIORITY at the end.
   Schedule: no priority.
 
-
-
-REMINDER_PRIORITY
-
-DEADLINE_PRIORITY
-
+For tasks, two hight of priority are set; REMINDER_PRIORITY and DEADLINE_PRIORITY.
 
 
 == Contributing to sculd

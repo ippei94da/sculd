@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/ippei94da/sculd"
   gem.license = "MIT"
   gem.summary = %Q{Sculd, SChedULe Dealer.}
-  gem.description = %Q{Jobs for a man. Jobs includes Tasks and Events. Using 'howm' like format}
+  gem.description = %Q{Schedule management system using 'howm' like format. Plans, i.e., schedule(@), reminder(-), deadline(!), and tood(+), make events and tasks. Command 'sculd' can output events on each date and tasks with high priority. }
   gem.email = "ippei94da@gmail.com"
   gem.authors = ["ippei94da"]
   # dependencies defined in Gemfile
