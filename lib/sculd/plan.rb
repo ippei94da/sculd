@@ -11,6 +11,7 @@
 #
 class Sculd::Plan
   class NotDefinedError < Exception; end
+  class WeekdayMismatchError < Exception; end
 
   attr_reader :description
 
@@ -19,22 +20,35 @@ class Sculd::Plan
 
   # Parse and return date, type, option.
   def self.parse(str)
-    #/\[(\d{4})-(\d{2})-(\d{2})\]([@+!-])(\d*)/ =~ @line
-    #/\[\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ line
-    #/\[\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ str
-    #/\[(\d{4}-\d{2}-\d{2}(?: \d{2}\:\d{2})?\][@+!-](\d*)(.*)/ =~ str
-    /\[([\d\- :]*)\](.)(\S*)/ =~ str 
-     #\[[\d\- :]*\]/ =~ "[1-2-3 1:2:3]"
+    #/\[([\d\- :]*)\](.)(\S*)/ =~ str #OK
+    /\[([^\]]*)\](.)(\S*)/ =~ str #OK
 
-
-    #
-    #OK
-    #/\[(\d{4}-\d{2}-\d{2})\]([@+!-])(\S*)(.*)$/ =~ str
-    #date      = DateTime::new($1.to_i, $2.to_i, $3.to_i)
     datetime      = DateTime::parse $1
     type      = $2
     option    = $3.to_s
+    if /\(.*\)/ =~ $1
+      raise WeekdayMismatchError unless self.wday($1) == datetime.wday
+    end
     return datetime, type, option
+  end
+
+  def self.wday(str)
+    case str
+    when /^Su/
+      return 0
+    when /^M/
+      return 1
+    when /^Tu/
+      return 2
+    when /^W/
+      return 3
+    when /^Th/
+      return 4
+    when /^F/
+      return 5
+    when /^Sa/
+      return 6
+    end
   end
 
   #

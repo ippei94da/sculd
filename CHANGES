@@ -1,6 +1,11 @@
 = sdrt changelog
 
-== Version 0.0.0
+MEMO
+* weekday to check 
 
+== Master (for 0.0.1)
+* Plan.parse is improved to deal with time.
+
+== Version 0.0.0
 * Initial release.
 

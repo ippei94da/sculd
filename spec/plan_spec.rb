@@ -21,9 +21,35 @@ describe Sculd::Plan do # E.g., Klass
         end
       end
 
+      context '[2012-11-01 01:02:03(Thu)]! deadlineA' do
+        it 'should return Date, !, ""' do
+          a, b, c = Sculd::Plan.parse('[2012-11-01 01:02:03]! deadlineA')
+          a.should == DateTime.new(2012, 11, 01, 1, 2, 3)
+          b.should == "!"
+          c.should == ""
+        end
+      end
+
+      context '[2012-11-01 01:02:03(Fri)]! deadlineA' do
+        it 'should return Date, !, ""' do
+          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]! deadlineA')}.should raise_error Sculd::Plan::WeekdayMismatchError
+        end
+      end
+
       context '[abc]! deadlineA' do
         it 'should raise exception' do
+          #Sculd::Plan.parse('[abc]! deadlineA')
+          #fail
           lambda{ Sculd::Plan.parse('[abc]! deadlineA')}.should raise_error
+        end
+      end
+
+      context '[abc]]! deadlineA' do
+        it 'should raise exception' do
+          a, b, c = Sculd::Plan.parse('[2012-01-01]]! deadlineA')
+          a.should == DateTime.new(2012, 01, 01)
+          b.should == "]"
+          c.should == "!"
         end
       end
 
