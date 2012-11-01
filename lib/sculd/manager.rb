@@ -12,10 +12,12 @@ class Sculd::Manager
   #WEEKDAYS = [ "日", "月", "火", "水", "木", "金", "土" ]
   WEEKDAYS = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
 
+  class LoadError < Exception; end
+
   #
-  def initialize(file)
+  def initialize(file, io = $stdout)
     @source_file = file
-    load_file(@source_file)
+    load_file(@source_file, io)
   end
 
   def show(num_event, num_task)
@@ -26,12 +28,12 @@ class Sculd::Manager
   private
 
   # read, parse file and set data to @events and @tasks.
-  def load_file(file)
+  def load_file(file, io = $stdio)
     @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
       begin
-        date, type, option = Sculd::Plan.parse(line)
+        date, type, option = Sculd::Plan.parse(line, io)
         option = option.to_i
         next unless type
         case type
@@ -49,8 +51,11 @@ class Sculd::Manager
           next
         end
         @plans << plan_type.new(date, option, line)
+      rescue Sculd::Plan::WeekdayMismatchError
+        io.puts "error occured at #{index}: #{line}"
+        raise LoadError
       rescue
-        #puts "error occured at #{index}: #{line}"
+        # do nothing
       end
     end
   end

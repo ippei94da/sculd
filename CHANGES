@@ -1,10 +1,12 @@
 = sdrt changelog
 
-MEMO
-* weekday to check 
+== Master (for 0.0.2)
 
-== Master (for 0.0.1)
-* Plan.parse is improved to deal with time.
+== Version 0.0.1
+* Enable to use date and time.
+* Plan.parse is modified to deal with time.
+* [datetime(wday)], date and weekday, style is introduced, to check correct date.
+* Add dates command to help you input your plans.
 
 == Version 0.0.0
 * Initial release.

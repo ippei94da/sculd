@@ -20,7 +20,7 @@ class Sculd::Plan
   DEADLINE_PRIORITY = 20000
 
   # Parse and return date, type, option.
-  def self.parse(str)
+  def self.parse(str, io = $stdout)
     #/\[([\d\- :]*)\](.)(\S*)/ =~ str #OK
     /\[([^\]]*)\](.)(\S*)/ =~ str #OK
 
@@ -30,7 +30,17 @@ class Sculd::Plan
 
     datetime      = DateTime::parse datestr
     if /\((.+)\)/ =~ datestr
-      raise WeekdayMismatchError unless self.wday($1) == datetime.wday
+      #pp $1
+      #pp datetime.wday
+      #pp self.wday($1)
+      unless self.wday($1) == datetime.wday
+        #io.puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
+        #io.puts "but string contains #{datestr}."
+        puts "ERROR:"
+        puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
+        puts "but string contains #{datestr}."
+        raise WeekdayMismatchError
+      end
     end
     return datetime, type, option
   end

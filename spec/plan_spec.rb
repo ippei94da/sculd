@@ -37,9 +37,10 @@ describe Sculd::Plan do # E.g., Klass
 
       context 'schedule with wrong weekday' do
         it 'should return Date, @, ""' do
-          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]@ deadlineA')}.should raise_error Sculd::Plan::WeekdayMismatchError
+          io = StringIO.new
+          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]@ deadlineA', io)}.should raise_error Sculd::Plan::WeekdayMismatchError
 
-          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(abc)]@ deadlineA')}.should raise_error Sculd::Plan::NotWeekdayError
+          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(abc)]@ deadlineA', io)}.should raise_error Sculd::Plan::NotWeekdayError
         end
       end
 

@@ -15,16 +15,25 @@ describe "Manager" do
     end
 
     describe "#load_file" do
-      it "should overwrite data" do
-        result = @s00.load_file("spec/schedule/schedule.dat")
-        @s00.plans.size.should == 4
-        @s00.plans[0].should be_kind_of Sculd::Plan
-        @s00.plans[1].should be_kind_of Sculd::Plan
-        @s00.plans[2].should be_kind_of Sculd::Plan
-        @s00.plans[3].should be_kind_of Sculd::Plan
+      context "correct data" do
+        it "should overwrite data" do
+          result = @s00.load_file("spec/schedule/schedule.dat")
+          @s00.plans.size.should == 4
+          @s00.plans[0].should be_kind_of Sculd::Plan
+          @s00.plans[1].should be_kind_of Sculd::Plan
+          @s00.plans[2].should be_kind_of Sculd::Plan
+          @s00.plans[3].should be_kind_of Sculd::Plan
 
-        result = @s00.load_file("spec/schedule/empty.dat")
-        @s00.plans.size.should == 0
+          result = @s00.load_file("spec/schedule/empty.dat")
+          @s00.plans.size.should == 0
+        end
+      end
+
+      context "data containing error" do
+        it "should interrupt with error line." do
+          io = StringIO.new
+          lambda{ @s00.load_file("spec/schedule/error.dat", io)}.should raise_error Sculd::Manager::LoadError
+        end
       end
     end
   end

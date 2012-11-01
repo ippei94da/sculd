@@ -18,6 +18,7 @@ OPTS = {}
 op = OptionParser.new
 op.on("-e day", "--event days", "Show events."){|v| OPTS[:event] = v.to_i}
 op.on("-t num", "--task num"  , "Show tasks." ){|v| OPTS[:task ] = v.to_i}
+op.on("-f file", "--file datafile", "Indicate file."){|v| OPTS[:file] = v}
 op.parse!(ARGV)
 
 #num_day  = ARGV.shift.to_i
@@ -30,15 +31,22 @@ if (( OPTS[:event] == 0) &&( OPTS[:task ] == 0))
   exit
 end
 
+file = OPTS[:file]
+file ||= SCULD_DAT
 
-unless FileTest.exist? SCULD_DAT
-#  lines = File.open(SCULD_DAT, "r").readlines
+unless FileTest.exist? file
+#  lines = File.open(file, "r").readlines
 #rescue
-  puts "Not found #{SCULD_DAT}. Exit."
+  puts "Not found #{file}. Exit."
   exit
 end
 
-sm = Sculd::Manager.new(SCULD_DAT)
+begin
+  sm = Sculd::Manager.new(file)
+rescue Sculd::Manager::LoadError
+  puts "Exit."
+  exit
+end
 sm.show(OPTS[:event], OPTS[:task])
 
 #while (true)
