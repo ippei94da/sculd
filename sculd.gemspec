@@ -5,14 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = "sculd"
-  s.version = "0.0.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["ippei94da"]
-  s.date = "2012-10-25"
+  s.date = "2012-11-01"
   s.description = "Schedule management system using 'howm' like format. Plans, i.e., schedule(@), reminder(-), deadline(!), and tood(+), make events and tasks. Command 'sculd' can output events on each date and tasks with high priority. "
   s.email = "ippei94da@gmail.com"
-  s.executables = ["sculd"]
+  s.executables = ["dates", "sculd"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.rdoc"
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "bin/dates",
     "bin/sculd",
     "lib/sculd.rb",
     "lib/sculd/event.rb",
@@ -36,6 +37,7 @@ Gem::Specification.new do |s|
     "lib/sculd/plan/schedule.rb",
     "lib/sculd/plan/todo.rb",
     "lib/sculd/task.rb",
+    "sculd.gemspec",
     "spec/command_spec.rb",
     "spec/deadline_spec.rb",
     "spec/event_spec.rb",
@@ -44,6 +46,7 @@ Gem::Specification.new do |s|
     "spec/plan_spec.rb",
     "spec/reminder_spec.rb",
     "spec/schedule/empty.dat",
+    "spec/schedule/error.dat",
     "spec/schedule/schedule.dat",
     "spec/schedule_spec.rb",
     "spec/sculd_spec.rb",
