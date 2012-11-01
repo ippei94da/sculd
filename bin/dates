@@ -1,0 +1,41 @@
+#! /usr/bin/ruby
+# coding: utf-8
+
+require "date"
+require "pp"
+
+#WEEKDAYS = %w(日 月 火 水 木 金 土)
+WEEKDAYS = %w(Sun Mon Tue Wed Thu Fri Sat)
+TODAY = DateTime.now
+
+unless ARGV.size == 2
+  puts "USAGE: dates from_date to_date"
+  puts "  e.g., dates 2012-01-26 2012-02-29"
+  puts "  e.g., dates 1-26 2-29"
+  puts "  e.g., dates '' 29"
+  exit
+end
+
+def analyze_date(str)
+  #pp TODAY
+  nums = str.split(/[\-\/]/).map{|i| i.to_i}
+  nums = [TODAY.day         ] if nums.size == 0
+  nums = [TODAY.month, *nums] if nums.size == 1
+  nums = [TODAY.year,  *nums] if nums.size == 2
+  Date.new(* nums)
+end
+from_date = analyze_date(ARGV[0])
+to_date   = analyze_date(ARGV[1])
+
+if to_date < from_date
+  puts "Error: from_date must be earlier than to_date"
+  exit
+end
+
+#p from_date, to_date
+current = from_date
+while (current <= to_date)
+  puts current.strftime("[%Y-%m-%d (#{WEEKDAYS[current.wday]})]")
+  current += 1
+end
+
