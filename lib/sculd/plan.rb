@@ -12,6 +12,7 @@
 class Sculd::Plan
   class NotDefinedError < Exception; end
   class WeekdayMismatchError < Exception; end
+  class NotWeekdayError < Exception; end
 
   attr_reader :description
 
@@ -23,10 +24,12 @@ class Sculd::Plan
     #/\[([\d\- :]*)\](.)(\S*)/ =~ str #OK
     /\[([^\]]*)\](.)(\S*)/ =~ str #OK
 
-    datetime      = DateTime::parse $1
-    type      = $2
-    option    = $3.to_s
-    if /\(.*\)/ =~ $1
+    datestr = $1
+    type    = $2
+    option  = $3.to_s
+
+    datetime      = DateTime::parse datestr
+    if /\((.+)\)/ =~ datestr
       raise WeekdayMismatchError unless self.wday($1) == datetime.wday
     end
     return datetime, type, option
@@ -34,20 +37,22 @@ class Sculd::Plan
 
   def self.wday(str)
     case str
-    when /^Su/
+    when /^Su/i
       return 0
-    when /^M/
+    when /^M/i
       return 1
-    when /^Tu/
+    when /^Tu/i
       return 2
-    when /^W/
+    when /^W/i
       return 3
-    when /^Th/
+    when /^Th/i
       return 4
-    when /^F/
+    when /^F/i
       return 5
-    when /^Sa/
+    when /^Sa/i
       return 6
+    else
+      raise NotWeekdayError
     end
   end
 

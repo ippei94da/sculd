@@ -12,27 +12,34 @@ describe Sculd::Plan do # E.g., Klass
         end
       end
 
-      context '[2012-10-23 01:02:03]! deadlineA' do
-        it 'should return Date, !, ""' do
-          a, b, c = Sculd::Plan.parse('[2012-10-23 01:02:03]! deadlineA')
+      context '[2012-10-23 01:02:03]@ deadlineA' do
+        it 'should return Date, @, ""' do
+          a, b, c = Sculd::Plan.parse('[2012-10-23 01:02:03]@ deadlineA')
           a.should == DateTime.new(2012, 10, 23, 1, 2, 3)
-          b.should == "!"
+          b.should == "@"
           c.should == ""
         end
       end
 
-      context '[2012-11-01 01:02:03(Thu)]! deadlineA' do
-        it 'should return Date, !, ""' do
-          a, b, c = Sculd::Plan.parse('[2012-11-01 01:02:03]! deadlineA')
+      context 'schedule with correct weekday' do
+        it 'should return Date, @, ""' do
+          a, b, c = Sculd::Plan.parse('[2012-11-01 01:02:03(Thu)]@ deadlineA')
           a.should == DateTime.new(2012, 11, 01, 1, 2, 3)
-          b.should == "!"
+          b.should == "@"
+          c.should == ""
+
+          a, b, c = Sculd::Plan.parse('[2012-11-01 01:02:03(th)]@ deadlineA')
+          a.should == DateTime.new(2012, 11, 01, 1, 2, 3)
+          b.should == "@"
           c.should == ""
         end
       end
 
-      context '[2012-11-01 01:02:03(Fri)]! deadlineA' do
-        it 'should return Date, !, ""' do
-          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]! deadlineA')}.should raise_error Sculd::Plan::WeekdayMismatchError
+      context 'schedule with wrong weekday' do
+        it 'should return Date, @, ""' do
+          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]@ deadlineA')}.should raise_error Sculd::Plan::WeekdayMismatchError
+
+          lambda{ Sculd::Plan.parse('[2012-11-01 01:02:03(abc)]@ deadlineA')}.should raise_error Sculd::Plan::NotWeekdayError
         end
       end
 
