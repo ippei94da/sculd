@@ -1,15 +1,104 @@
 = sculd
 
-4 types of Plan's; Reminder, Deadline, Schedule, Todo.
-  Reminder: nil till the date, REMINDER_PRIORITY at the date, decrease after that.
-  Deadline: nil till the date, REMINDER_PRIORITY at the beginning,
-    increase after that,
-    DEADLINE_PRIORITY at the deadline
-  Todo: nil till the date, REMINDER_PRIORITY at the date, increase after that,
-    DEADLINE_PRIORITY at the end.
-  Schedule: no priority.
+Sculd, SChedULe Dealer, provides a command 'sculd'.
+The command reads ~/.sculd.dat, which is written by HOWM like
+format text file.
+It can contain four types of plans;
+* Reminder
+* Deadline
+* Schedule
+* Todo
+Each plan generate events and a task.
+Command 'sculd' output events divided to each day
+and tasks which have high priorities.
 
-For tasks, two hight of priority are set; REMINDER_PRIORITY and DEADLINE_PRIORITY.
+== word: plan, event, task
+Word "plan" is a summarizing name for below;
+* Reminder
+* Deadline
+* Schedule
+* Todo
+
+"event" indicates an occurance which do not need preparation.
+
+"task" indicates a work which you need to consume time.
+
+(MEMO: Event and Task can have a parent class "Job". But not so now.)
+
+== plan
+A typical example of a plan, e.g., deadline, is denoted below;
+"[2012-11-04]!10 descriptionA."
+"[2012-11-04]" is a date time part.
+"!" is a plan type indicator.
+"10" is an option for type indicator.
+"descriptionA." is a description part.
+
+=== date time part
+Digits included by square bracket indicates date.
+This can be any format if Ruby DateTime::parse can interpret.
+
+This can include information of time, i.e.,
+"[2012-11-04 12:34:56]! descriptionA."
+
+And can also include information of weekday in parentheses, i.e.,
+"[2012-11-04 (Sun)]! descriptionA."
+If the weekday of the date is mismatched with the weekday in
+parentheses, 'sculd' outputs an error and stops.
+This may be useful to confirm that the plan is correct.
+
+=== plan type indicates
+"-": reminder
+"!": deadline
+"@": schedule
+"+": todo
+
+
+=== priority
+Two hight of priority are set for tasks;
+REMINDER_PRIORITY (10000)
+DEADLINE_PRIORITY (20000)
+
+=== Reminder
+Till   the date: no priority.
+On     the date: REMINDER_PRIORITY.
+After  the date: decrease gradually. (1 per day.)
+
+Option for indiccate doesn't have meaning and is ignored.
+A Reminder plan generates one event on the date.
+
+=== Schedule
+Always         : no priority.
+
+Option for indiccate doesn't have meaning and is ignored.
+A Schedule plan generates one event on the date.
+
+=== Deadline
+Till   the date: no priority.
+Starting   date: REMINDER_PRIORITY.
+During         : increase gradually. (linear)
+On     the date: DEADLINE_PRIORITY.
+After  the date: DEADLINE_PRIORITY, keeping.
+
+Starting date is (the_date - option).
+For example, Starting date of "[2012-11-14]!10 abc" is [2012-11-04].
+The default value for the option is seven.
+
+A Deadline plan generates two events;
+on the starting date and the last date.
+
+=== Todo
+Till   the date: no priority.
+On     the date: REMINDER_PRIORITY.
+During         : increase gradually. (linear)
+Last       date: DEADLINE_PRIORITY.
+After  the date: DEADLINE_PRIORITY, keeping.
+
+Todo is very similar to Deadline.
+Only a difference is that the last day is given to deadline and
+the first day is given to todo.
+
+A Todo plan generates two events;
+on the starting date and the last date.
 
 
 == Contributing to sculd
