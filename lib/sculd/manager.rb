@@ -20,7 +20,7 @@ class Sculd::Manager
     load_file(@source_file, io)
   end
 
-  def show(num_event, num_task)
+  def show(num_event, num_task, io = $stdout)
     show_events(num_event)
     show_tasks(num_task)
   end

@@ -47,7 +47,8 @@ rescue Sculd::Manager::LoadError
   puts "Exit."
   exit
 end
-sm.show(OPTS[:event], OPTS[:task])
+io = $stdout
+sm.show(OPTS[:event], OPTS[:task], io)
 
 #while (true)
 #  s.show(OPTS[:event], OPTS[:task])
