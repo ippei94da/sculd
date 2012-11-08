@@ -4,6 +4,7 @@
 require "date"
 require "sculd.rb"
 #require "/home/ippei/devel/sculd/lib/sculd.rb"
+require ""
 
 #
 #
