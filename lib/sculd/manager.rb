@@ -3,6 +3,9 @@
 
 require "date"
 require "sculd.rb"
+
+require "rubygems"
+require "highline"
 #require "/home/ippei/devel/sculd/lib/sculd.rb"
 require ""
 
@@ -64,6 +67,8 @@ class Sculd::Manager
   # Show events in 'num' days from todary.
   def show_events(num, today = Date.today, io = $stdout)
     return if num == 0
+
+    #hl = HighLine.new($stdin, io)
 
     d_e = days_events
     io.puts "Events:"

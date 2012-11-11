@@ -70,10 +70,12 @@ describe "Manager" do
         #pp results
         results.size.should == 7
         results[0].should == "Events:\n"
-        results[1].should == "  2012-09-09 Sun\n"
+        #results[1].should == "  2012-09-09 Sun\n"
+        results[1].should == "  [37m[41m2012-09-09 Sun[0m\n"
         results[2].should == "    [2012-09-16]! deadline b\n"
         results[3].should == "\n"
-        results[4].should == "  2012-09-15 Sat\n"
+        $results[4].should == "  2012-09-15 Sat\n"
+        results[4].should == "  [37m[44m2012-09-15 Sat[0m\n"
         results[5].should == "    [2012-09-15]@ schedule a\n"
         results[6].should == "\n"
         #results[].should == "\n"
