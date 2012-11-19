@@ -16,6 +16,8 @@ class Sculd::Manager
   #WEEKDAYS = [ "日", "月", "火", "水", "木", "金", "土" ]
   WEEKDAYS = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
 
+  HIGHLINE = HighLine.new($stdin, io)
+
   class LoadError < Exception; end
 
   #
@@ -68,7 +70,7 @@ class Sculd::Manager
   def show_events(num, today = Date.today, io = $stdout)
     return if num == 0
 
-    #hl = HighLine.new($stdin, io)
+#    HIGHLINE.say()
 
     d_e = days_events
     io.puts "Events:"
