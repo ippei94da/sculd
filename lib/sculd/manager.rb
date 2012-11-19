@@ -7,7 +7,6 @@ require "sculd.rb"
 require "rubygems"
 gem     "highline"
 require "highline"
-#require "/home/ippei/devel/sculd/lib/sculd.rb"
 
 #
 #
