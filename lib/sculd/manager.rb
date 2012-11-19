@@ -16,8 +16,6 @@ class Sculd::Manager
   #WEEKDAYS = [ "日", "月", "火", "水", "木", "金", "土" ]
   WEEKDAYS = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" ]
 
-  HIGHLINE = HighLine.new($stdin, io)
-
   class LoadError < Exception; end
 
   #
@@ -69,8 +67,8 @@ class Sculd::Manager
   # Show events in 'num' days from todary.
   def show_events(num, today = Date.today, io = $stdout)
     return if num == 0
+    hl = HighLine.new($stdin, io)
 
-#    HIGHLINE.say()
 
     d_e = days_events
     io.puts "Events:"
@@ -78,7 +76,12 @@ class Sculd::Manager
       date = today + i
       events = d_e[date]
       if events # if plan is not empty.
-        io.puts "  #{date.to_s} #{WEEKDAYS[date.wday]}"
+        str = "  #{date.to_s} #{WEEKDAYS[date.wday]}"
+        #HIGHLINE.say("<%= color('red', :red) %>!")
+        #HIGHLINE.say("  <%= color(#{date.to_s} #{WEEKDAYS[date.wday]}, :white, :red) %>")
+        #hl.say("  <%= color('red', :red) %>!")
+        hl.say("<%= color('#{str}', :white, :red) %>")
+        #io.puts str
         events.sort_by{|i| i.datetime}.each do |job|
           io.puts "    #{job.description.strip}"
         end
