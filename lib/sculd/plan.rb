@@ -36,9 +36,9 @@ class Sculd::Plan
       unless self.wday($1) == datetime.wday
         #io.puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
         #io.puts "but string contains #{datestr}."
-        puts "ERROR:"
-        puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
-        puts "but string contains #{datestr}."
+        io.puts "ERROR:"
+        io.puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
+        io.puts "but string contains #{datestr}."
         raise WeekdayMismatchError
       end
     end

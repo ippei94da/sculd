@@ -63,20 +63,19 @@ describe "Manager" do
     describe "#show_events" do
       it 'should return itemized days and events' do
         io = StringIO.new
-        today = Date.new(2012, 9,6)
-        @s01.show_events(10, today, io)
+        today = Date.new(2012, 9, 15)
+        @s01.show_events(2, today, io)
         io.rewind
         results = io.readlines
         #pp results
         results.size.should == 7
         results[0].should == "Events:\n"
         #results[1].should == "  2012-09-09 Sun\n"
-        results[1].should == "  [37m[41m2012-09-09 Sun[0m\n"
-        results[2].should == "    [2012-09-16]! deadline b\n"
+        results[1].should == "  [37m[44m 2012-09-15 Sat [0m\n"
+        results[2].should == "    [2012-09-15]@ schedule a\n"
         results[3].should == "\n"
-        $results[4].should == "  2012-09-15 Sat\n"
-        results[4].should == "  [37m[44m2012-09-15 Sat[0m\n"
-        results[5].should == "    [2012-09-15]@ schedule a\n"
+        results[4].should == "  [37m[41m 2012-09-16 Sun [0m\n"
+        results[5].should == "    [2012-09-16]! deadline b\n"
         results[6].should == "\n"
         #results[].should == "\n"
         #results[].should == "  [2012-09-16]\n"

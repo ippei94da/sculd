@@ -69,26 +69,34 @@ class Sculd::Manager
     return if num == 0
     hl = HighLine.new($stdin, io)
 
-
     d_e = days_events
     io.puts "Events:"
     num.times do |i|
       date = today + i
+      str = " #{date.to_s} #{WEEKDAYS[date.wday]} "
+
+      case date.wday
+      when 0
+        hl.say("  <%= color('#{str}', :white, :on_red) %>")
+      when 6
+        hl.say("  <%= color('#{str}', :white, :on_blue) %>")
+      else
+        hl.say("  <%= color('#{str}', :white, :on_black) %>")
+      end
+
       events = d_e[date]
       if events # if plan is not empty.
-        str = "  #{date.to_s} #{WEEKDAYS[date.wday]}"
         #HIGHLINE.say("<%= color('red', :red) %>!")
         #HIGHLINE.say("  <%= color(#{date.to_s} #{WEEKDAYS[date.wday]}, :white, :red) %>")
         #hl.say("  <%= color('red', :red) %>!")
-        hl.say("<%= color('#{str}', :white, :red) %>")
         #io.puts str
         events.sort_by{|i| i.datetime}.each do |job|
           io.puts "    #{job.description.strip}"
         end
-        io.puts
       else
-        next
+        io.puts "    (no plan)"
       end
+      io.puts
     end
   end
 

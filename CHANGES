@@ -1,6 +1,10 @@
 = sdrt changelog
 
-== Master (for 0.0.2)
+== Master (for 0.0.3)
+
+== Version 0.0.2
+* Dates are changed to be shown in colors.
+* Dates which has no plan shows '(no plan)'
 
 == Version 0.0.1
 * Enable to use date and time.
