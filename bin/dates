@@ -3,8 +3,19 @@
 
 require "date"
 require "pp"
+require "optparse"
 
-#WEEKDAYS = %w(日 月 火 水 木 金 土)
+## option analysis
+OPTIONS = {}
+op = OptionParser.new
+op.on("-t time", "--time=val", "Time indication."){|v| OPTIONS[:time] = v}
+op.on("-s string", "--string=val", "String just after DateTime."){|v| OPTIONS[:string] = v}
+op.on("-i num", "--indent=num", "Indicate number of spaces at the beginning."){|v| OPTIONS[:indent] = v.to_i}
+op.parse!(ARGV)
+OPTIONS[:time]   ||= ""
+OPTIONS[:string] ||= ""
+OPTIONS[:indent] ||= 0
+
 WEEKDAYS = %w(Sun Mon Tue Wed Thu Fri Sat)
 TODAY = DateTime.now
 
@@ -13,6 +24,9 @@ unless ARGV.size == 2
   puts "  e.g., dates 2012-01-26 2012-02-29"
   puts "  e.g., dates 1-26 2-29"
   puts "  e.g., dates '' 29"
+  puts "  e.g., dates 2012-01-26 2012-02-29 -t 12:30"
+  puts "  e.g., dates 2012-01-26 2012-02-29 -s '@ string'"
+  puts "  e.g., dates 2012-01-26 2012-02-29 -i 2"
   exit
 end
 
@@ -35,7 +49,9 @@ end
 #p from_date, to_date
 current = from_date
 while (current <= to_date)
-  puts current.strftime("[%Y-%m-%d (#{WEEKDAYS[current.wday]})]")
+  str = " " * OPTIONS[:indent]
+  str += current.strftime("[%Y-%m-%d #{OPTIONS[:time]} (#{WEEKDAYS[current.wday]})]#{OPTIONS[:string]}").sub("  ", " ")
+  puts str
   current += 1
 end
 
