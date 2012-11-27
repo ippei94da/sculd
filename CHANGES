@@ -1,6 +1,7 @@
 = sdrt changelog
 
 == Master (for 0.0.3)
+* Options -s, -t, -i is made into bin/dates command.
 
 == Version 0.0.2
 * Dates are changed to be shown in colors.
