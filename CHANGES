@@ -2,9 +2,9 @@
 
 == Master (for 0.0.3)
 * Options -s, -t, -i is made into bin/dates command.
-* use /usr/bin/env ruby in bin/dates, alternatively to /usr/bin/ruby.
+* Use /usr/bin/env ruby in bin/dates, alternatively to /usr/bin/ruby.
 
-== Version 0.0.2
+== Version 0.0.2 [2012-11-19] released
 * Dates are changed to be shown in colors.
 * Dates which has no plan shows '(no plan)'
 

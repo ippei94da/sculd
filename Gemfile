@@ -8,7 +8,7 @@ source "http://rubygems.org"
 group :development do
   gem "rspec", "~> 2.12.0"
   gem "rdoc", "~> 3.12"
-  gem "bundler", "~> 1.2.2"
+  gem "bundler", "~> 1.3.5"
   gem "jeweler", "~> 1.8.4"
   gem "simplecov", ">= 0"
   gem "highline", ">= 1.6.15"
