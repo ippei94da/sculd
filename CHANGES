@@ -1,6 +1,8 @@
 = sdrt changelog
 
-== Master (for 0.0.3)
+== Master (for 0.0.4)
+
+== Version 0.0.3 [2013-04-18] released
 * Options -s, -t, -i is made into bin/dates command.
 * Use /usr/bin/env ruby in bin/dates, alternatively to /usr/bin/ruby.
 
