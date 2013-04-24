@@ -12,5 +12,5 @@ group :development do
   gem "jeweler", "~> 1.8.4"
   gem "simplecov", ">= 0"
   gem "highline", ">= 1.6.15"
-  gem "psych", ">= 0"
+  #gem "psych", ">= 0"
 end
