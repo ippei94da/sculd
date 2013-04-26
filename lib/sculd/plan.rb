@@ -13,6 +13,7 @@ class Sculd::Plan
   class NotDefinedError < Exception; end
   class WeekdayMismatchError < Exception; end
   class NotWeekdayError < Exception; end
+  #class NotDateError < Exception; end
 
   attr_reader :description
 
