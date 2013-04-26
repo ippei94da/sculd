@@ -18,9 +18,12 @@ class Sculd::Manager
   class LoadError < Exception; end
 
   #
-  def initialize(file, io = $stdout)
-    @source_file = file
-    load_file(@source_file, io)
+  def initialize(dir, io = $stdout)
+    @source_dir = dir
+    @plans = []
+    Dir.glob("#{@source_dir}/*").each do |file|
+      load_file(file, io)
+    end
   end
 
   def show(num_event, num_task, io = $stdout)
@@ -32,7 +35,6 @@ class Sculd::Manager
 
   # read, parse file and set data to @events and @tasks.
   def load_file(file, io = $stdio)
-    @plans = []
 
     File.open(file, "r").readlines.each_with_index do |line, index|
       begin

@@ -11,13 +11,13 @@ end
 describe "Manager" do
   context "empty" do
     before do
-      @s00 = Sculd::Manager.new("spec/schedule/empty.dat")
+      @s00 = Sculd::Manager.new("spec/schedule")
     end
 
     describe "#load_file" do
       context "correct data" do
         it "should overwrite data" do
-          result = @s00.load_file("spec/schedule/schedule.dat")
+          result = @s00.load_file("spec/schedule/normal/schedule.dat")
           @s00.plans.size.should == 4
           @s00.plans[0].should be_kind_of Sculd::Plan
           @s00.plans[1].should be_kind_of Sculd::Plan
