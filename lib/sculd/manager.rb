@@ -5,7 +5,7 @@ require "date"
 require "sculd.rb"
 
 require "rubygems"
-gem     "highline"
+#gem     "highline"
 require "highline"
 
 #
