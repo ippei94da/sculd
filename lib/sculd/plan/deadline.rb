@@ -9,9 +9,12 @@ require "sculd/plan.rb"
 #
 class Sculd::Plan::Deadline < Sculd::Plan
 
+  SYMBOL_CHAR = "!"
+  DEFAULT_OPTION = 7
+
   def priority(today)
-    @option = 1 if @option < 1
-    beginning = @datetime - @option
+    #@option = 1 if @option < 1
+    beginning = @datetime - (@option || DEFAULT_OPTION)
     if today < beginning
       return 0
     elsif today <= @datetime
@@ -23,11 +26,15 @@ class Sculd::Plan::Deadline < Sculd::Plan
     end
   end
 
-  def events
+  def event_dates
+    #@option ||= DEFAULT_OPTION
+
     results = []
-    results << Sculd::Event.new(@datetime - @option, @description)
-    results << Sculd::Event.new(@datetime, @description)
-    return results
+    results << @datetime - (@option || DEFAULT_OPTION)
+    results << @datetime
+    results.map do |datetime|
+      Date.new(datetime.year, datetime.month, datetime.day)
+    end
   end
 end
 

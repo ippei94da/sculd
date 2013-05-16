@@ -8,7 +8,10 @@ require "helper"
 class TC_Klass < Test::Unit::TestCase
   def setup
     date = Date.new(2012, 10, 23)
-    @r00 = Sculd::Plan::Reminder.new(date, 10, '[2012-10-23]- reminderA')
+    @r00 = Sculd::Plan::Reminder.new(date, false, 10, 'reminderA')
+
+    date = DateTime.new(2012, 10, 23, 23, 45, 00)
+    @r01 = Sculd::Plan::Reminder.new(date, false, 10, 'reminderA')
   end
 
   def test_priority
@@ -21,13 +24,15 @@ class TC_Klass < Test::Unit::TestCase
     assert_equal(9999, @r00.priority(date))
   end
 
-  def test_events
+  def test_event_dates
     #it 'return a Sculd::Event instance.' do
-    result = @r00.events
-    assert_equal(Array, result.class)
-    assert_equal(1, result.size)
-    assert_equal(Sculd::Event, result[0].class)
-    assert_equal(Date.new(2012, 10, 23), result[0].datetime.to_date)
+    results = @r00.event_dates
+    assert_equal([Date.new(2012, 10, 23)], results)
+
+    results = @r01.event_dates
+    assert_equal(1                     , results.size)
+    assert_equal(Date.new(2012, 10, 23), results[0]  )
+    assert_equal(Date                  , results[0].class  )
   end
 end
 

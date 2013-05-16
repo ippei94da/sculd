@@ -5,8 +5,11 @@ require "helper"
 
 class TC_Deadline < Test::Unit::TestCase
   def setup
-    today = Date.new(2012, 10, 15)
-    @d00 = Sculd::Plan::Deadline.new(today, 10, '[2012-10-15]!10 deadlineA')
+    date = Date.new(2012, 10, 15)
+    @d00 = Sculd::Plan::Deadline.new(date, false, 10, 'deadlineA')
+
+    date = DateTime.new(2012, 10, 15, 23, 45, 00)
+    @d01 = Sculd::Plan::Deadline.new(date, false, 10, 'deadlineA')
   end
 
   #context 'Date[2012-10-15], 10, [2012-10-15]!10 deadlineA' do
@@ -25,10 +28,20 @@ class TC_Deadline < Test::Unit::TestCase
     assert_equal(0, @d00.priority(today))
   end
 
-  def test_events
-    assert_equal(2                     , @d00.events.size      )
-    assert_equal(Date.new(2012, 10,  5), @d00.events[0].date   )
-    assert_equal(Date.new(2012, 10, 15), @d00.events[1].date   )
+  def test_event_dates
+    results = @d00.event_dates
+    assert_equal(2                     , results.size)
+    assert_equal(Date.new(2012, 10,  5), results[0]  )
+    assert_equal(Date.new(2012, 10, 15), results[1]  )
+    assert_equal(Date                  , results[0].class  )
+    assert_equal(Date                  , results[1].class  )
+
+    results = @d01.event_dates
+    assert_equal(2                     , results.size)
+    assert_equal(Date.new(2012, 10,  5), results[0]  )
+    assert_equal(Date.new(2012, 10, 15), results[1]  )
+    assert_equal(Date                  , results[0].class  )
+    assert_equal(Date                  , results[1].class  )
   end
 
 end

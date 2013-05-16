@@ -8,7 +8,10 @@ require "helper"
 class TC_Todo < Test::Unit::TestCase
   def setup
     today = Date.new(2012, 10, 15)
-    @t00 = Sculd::Plan::Todo.new(today, 10, '[2012-10-15]+10 todoA')
+    @t00 = Sculd::Plan::Todo.new(today, false, 10, 'todoA')
+
+    today = DateTime.new(2012, 10, 15, 23, 45, 00)
+    @t01 = Sculd::Plan::Todo.new(today, false, 10, 'todoA')
   end
 
   def test_priority
@@ -29,10 +32,19 @@ class TC_Todo < Test::Unit::TestCase
     assert_equal(20000, @t00.priority(today))
   end
 
-  def test_events
-    assert_equal(2, @t00.events.size)
-    assert_equal(Date.new(2012, 10, 15), @t00.events[0].date)
-    assert_equal(Date.new(2012, 10, 25), @t00.events[1].date)
+  def test_event_dates
+    results = @t00.event_dates
+    assert_equal(2, results.size)
+    assert_equal(Date.new(2012, 10, 15), results[0])
+    assert_equal(Date.new(2012, 10, 25), results[1])
+
+
+    results = @t01.event_dates
+    assert_equal(2                     , results.size)
+    assert_equal(Date.new(2012, 10, 15), results[0]  )
+    assert_equal(Date.new(2012, 10, 25), results[1]  )
+    assert_equal(Date                  , results[0].class  )
+    assert_equal(Date                  , results[1].class  )
   end
 end
 

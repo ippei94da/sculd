@@ -8,6 +8,9 @@ require "sculd/plan.rb"
 #
 #
 class Sculd::Plan::Reminder < Sculd::Plan
+
+  SYMBOL_CHAR = "-"
+
   # value of @option does not work
   def priority(today = Date.now)
     if today < @datetime
@@ -18,8 +21,8 @@ class Sculd::Plan::Reminder < Sculd::Plan
     end
   end
 
-  def events
-    return [Sculd::Event.new(@datetime, @description)]
+  def event_dates
+    [Date.new(@datetime.year, @datetime.month, @datetime.day)]
   end
 end
 

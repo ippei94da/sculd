@@ -38,27 +38,32 @@ class Sculd::Manager
 
     File.open(file, "r").readlines.each_with_index do |line, index|
       begin
-        date, type, option = Sculd::Plan.parse(line, io)
-        option = option.to_i
-        next unless type
-        case type
-        when "@"
-          plan_type = Sculd::Plan::Schedule
-        when "!"
-          plan_type = Sculd::Plan::Deadline
-          option = 7 if option == 0
-        when "-"
-          plan_type = Sculd::Plan::Reminder
-        when "+"
-          plan_type = Sculd::Plan::Todo
-          option = 7 if option == 0
+        elems = Sculd::Plan.parse(line, io)
+        next unless elems[:type]
+        case elems[:type]
+        when Sculd::Plan::Schedule::SYMBOL_CHAR
+          plan_class = Sculd::Plan::Schedule
+        when Sculd::Plan::Deadline::SYMBOL_CHAR
+          plan_class = Sculd::Plan::Deadline
+        when Sculd::Plan::Reminder::SYMBOL_CHAR
+          plan_class = Sculd::Plan::Reminder
+        when Sculd::Plan::Todo::SYMBOL_CHAR
+          plan_class = Sculd::Plan::Todo
         else
           next
         end
-        @plans << plan_type.new(date, option, line)
+        @plans << plan_class.new(elems[:datetime   ],
+                                 elems[:flag_time  ],
+                                 elems[:option     ],
+                                 elems[:description],
+                                )
       rescue Sculd::Plan::WeekdayMismatchError
-        io.puts "error occured at #{index}: #{line}"
+        io.puts "error occured at #{index}: #{line.to_i + 1}"
         raise LoadError
+      rescue Sculd::Plan::NotNumberError
+        #io.puts "error occured at #{index}: #{line+1}"
+        #raise LoadError
+        next
       rescue
         # do nothing
       end
@@ -93,7 +98,23 @@ class Sculd::Manager
         #io.puts str
         events.sort_by{|i| i.datetime}.each do |event|
           #pp event
-          io.puts "    #{event.description.strip}"
+
+          io.print("    ") #indent
+          event_date = Date.new(event.datetime.year,
+                                event.datetime.month,
+                                event.datetime.day)
+          if event_date != date
+            io.printf("<%02d/%02d>", event.datetime.month, event.datetime.day )
+          elsif event.flag_time
+            io.printf("[%02d:%02d]", event.datetime.hour, event.datetime.minute )
+          else
+            io.print("       ")
+          end
+          io.printf("%s", event.class::SYMBOL_CHAR )
+          io.printf("%-2s ", event.option.to_s )
+          io.puts "#{event.description}"
+
+          #io.puts "    #{event.description.strip}"
         end
       else
         io.puts "    (no plan)"
@@ -107,10 +128,12 @@ class Sculd::Manager
   def days_events
     results = {}
     @plans.each do |plan|
-      plan.events.each do |event|
-        date = event.date
+      #puts
+      #p plan
+      plan.event_dates.each do |date|
+        #pp date
         results[date] ||= []
-        results[date] << event
+        results[date] << plan
       end
     end
     return results
@@ -122,11 +145,21 @@ class Sculd::Manager
 
     io.puts "Tasks:"
     plans = @plans.sort_by {|plan| plan.priority(today)}.reverse
-    #pp plans
 
     num = plans.size if plans.size < num
     plans[0..(num-1)].each do |plan|
-      io.puts "  #{plan.description.strip}"
+      io.printf("  [%4d-%02d-%02d]",
+        plan.datetime.year,
+        plan.datetime.month,
+        plan.datetime.day,
+               )
+      io.printf("%s%-2s %s",
+        plan.class::SYMBOL_CHAR,
+        plan.option.to_s,
+        plan.description
+      #io.print "  #{plan.description.strip}"
+      )
+      io.puts
     end
   end
 end

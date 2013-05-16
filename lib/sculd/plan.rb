@@ -15,7 +15,7 @@ class Sculd::Plan
   class NotWeekdayError < Exception; end
   class NotNumberError < Exception; end
 
-  attr_reader :description
+  attr_reader :description, :flag_time, :datetime, :option
 
   REMINDER_PRIORITY = 10000
   DEADLINE_PRIORITY = 20000
@@ -38,6 +38,7 @@ class Sculd::Plan
       end
     end
     result[:datetime] = datetime
+    result[:flag_time] = date.include?(":")
 
     result[:type]   = type
 
@@ -73,9 +74,10 @@ class Sculd::Plan
   end
 
   #
-  def initialize(datetime, option, description)
-    @datetime   = datetime
-    @option = option
+  def initialize(datetime, flag_time, option, description)
+    @datetime    = datetime
+    @flag_time   = flag_time
+    @option      =  option
     @description = description
   end
 
@@ -84,7 +86,7 @@ class Sculd::Plan
     raise NotDefinedError
   end
 
-  def events
+  def event_dates
     raise NotDefinedError
   end
 end

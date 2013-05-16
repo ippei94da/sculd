@@ -8,7 +8,10 @@ require "helper"
 class TC_Schedule < Test::Unit::TestCase
   def setup
     date = Date.new(2012, 10, 15)
-    @s00 = Sculd::Plan::Schedule.new(date, 0, "[2012-10-15]@ scheduleA")
+    @s00 = Sculd::Plan::Schedule.new(date, false,  0, "scheduleA")
+
+    date = DateTime.new(2012, 10, 15, 23, 45, 0)
+    @s01 = Sculd::Plan::Schedule.new(date, false,  0, "scheduleA")
   end
 
   def test_priority
@@ -16,10 +19,12 @@ class TC_Schedule < Test::Unit::TestCase
     assert_equal(0, @s00.priority)
   end
 
-  def test_events
+  def test_event_dates
     #it 'should return Array of 1 item' do
-    assert_equal(Array, @s00.events.class)
-    assert_equal(1 , @s00.events.size)
-    assert_equal(Date.new(2012, 10, 15), @s00.events[0].date)
+    results = @s00.event_dates
+    assert_equal([Date.new(2012, 10, 15)], results)
+
+    results = @s01.event_dates
+    assert_equal([Date.new(2012, 10, 15)], results)
   end
 end

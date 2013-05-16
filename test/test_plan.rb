@@ -14,6 +14,7 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("!"        , result[:type])
     assert_equal(nil        , result[:option])
     assert_equal("deadlineA", result[:description])
+    assert_equal(false      , result[:flag_time])
 
     result = Sculd::Plan.parse('[2012-10-23]!30 deadlineA')
     date = DateTime.new(2012, 10, 23, 0, 0, 0)
@@ -21,6 +22,7 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("!"        , result[:type])
     assert_equal(30         , result[:option])
     assert_equal("deadlineA", result[:description])
+    assert_equal(false      , result[:flag_time])
 
     result = Sculd::Plan.parse('[2012-10-23 01:02:03]@ scheduleA')
     date = DateTime.new(2012, 10, 23, 1, 2, 3)
@@ -28,6 +30,7 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("@"        , result[:type])
     assert_equal(nil        , result[:option])
     assert_equal("scheduleA", result[:description])
+    assert_equal(true       , result[:flag_time])
 
     result = Sculd::Plan.parse('[2012-11-01 01:02:03(Thu)]@ scheduleA')
     date = DateTime.new(2012, 11,  1, 1, 2, 3)
@@ -35,6 +38,7 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("@"        , result[:type])
     assert_equal(nil        , result[:option])
     assert_equal("scheduleA", result[:description])
+    assert_equal(true       , result[:flag_time])
 
     result = Sculd::Plan.parse('[2012-11-01 01:02:03(th)]@ scheduleA')
     date = DateTime.new(2012, 11, 01, 1, 2, 3)
@@ -42,10 +46,14 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("@"        , result[:type])
     assert_equal(nil        , result[:option])
     assert_equal("scheduleA", result[:description])
+    assert_equal(true       , result[:flag_time])
 
     #context 'schedule with wrong weekday' do
     io = StringIO.new
     assert_raise(Sculd::Plan::WeekdayMismatchError ){ Sculd::Plan.parse('[2012-11-01 01:02:03(Sun)]@ scheduleA', io)}
+
+    assert_raise(Sculd::Plan::WeekdayMismatchError ){ Sculd::Plan.parse( "[2012-11-01(Fri)]@ mismach weekday\n", io)}
+
     assert_raise(Sculd::Plan::NotWeekdayError      ){ Sculd::Plan.parse('[2012-11-01 01:02:03(abc)]@ scheduleA', io)}
 
     #Unable to interpret as date in [].
@@ -71,6 +79,7 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("!"        , result[:type])
     assert_equal(nil        , result[:option])
     assert_equal("deadlineA with space at head", result[:description])
+    assert_equal(false      , result[:flag_time])
 
     #context '[2012-10-23]!10 deadline with option value' do
     #it 'should return Date, !, deadlineA' do
@@ -80,5 +89,9 @@ class TC_Plan < Test::Unit::TestCase
     assert_equal("!"        , result[:type])
     assert_equal(10         , result[:option])
     assert_equal("deadline with option value", result[:description])
+    assert_equal(false      , result[:flag_time])
+
+
+
   end
 end
