@@ -1,8 +1,8 @@
 #! /usr/bin/env ruby
 # coding: utf-8
 
-require "sculd/event.rb"
-require "sculd/plan.rb"
+#require "sculd/event.rb"
+#require "sculd/plan.rb"
 
 #
 #
