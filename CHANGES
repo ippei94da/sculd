@@ -4,6 +4,9 @@
 * Use test-unit alternatively to rspec.
 * Enable to use directory, ~/.sculd. alternatively to ~/.sculd.dat
 
+  doing:
+    Changing output format.
+
 == Version 0.0.3 [2013-04-18] released
 * Options -s, -t, -i is made into bin/dates command.
 * Use /usr/bin/env ruby in bin/dates, alternatively to /usr/bin/ruby.
