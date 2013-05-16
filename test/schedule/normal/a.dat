@@ -3,3 +3,8 @@
 [2012-09-17]- reminder c
 [2012-09-18]+ todo d
   normal line
+
+[2012-09-15 (Sat) 23:45]@ schedule a'
+[2012-09-16 (Sun) 23:45]!30 deadline b'
+[2012-09-17 (Mon) 23:45]- reminder c'
+[2012-09-18 (Tue) 23:45]+10 todo     d'

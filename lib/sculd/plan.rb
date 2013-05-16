@@ -13,7 +13,7 @@ class Sculd::Plan
   class NotDefinedError < Exception; end
   class WeekdayMismatchError < Exception; end
   class NotWeekdayError < Exception; end
-  #class NotDateError < Exception; end
+  class NotNumberError < Exception; end
 
   attr_reader :description
 
@@ -23,27 +23,32 @@ class Sculd::Plan
   # Parse and return date, type, option.
   def self.parse(str, io = $stdout)
     #/\[([\d\- :]*)\](.)(\S*)/ =~ str #OK
-    /\[([^\]]*)\](.)(\S*)/ =~ str #OK
+    /\[([^\]]*)\](.)(\S*)\s+(.*)/ =~ str #OK
+    result = {}
 
-    datestr = $1
-    type    = $2
-    option  = $3.to_s
+    date, type, option, description = $1, $2, $3, $4
 
-    datetime      = DateTime::parse datestr
-    if /\((.+)\)/ =~ datestr
-      #pp $1
-      #pp datetime.wday
-      #pp self.wday($1)
+    datetime      = DateTime::parse date
+    if /\((.+)\)/ =~ date
       unless self.wday($1) == datetime.wday
-        #io.puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
-        #io.puts "but string contains #{datestr}."
         io.puts "ERROR:"
         io.puts "#{datetime} is #{Sculd::Manager::WEEKDAYS[datetime.wday]},"
-        io.puts "but string contains #{datestr}."
+        io.puts "but string contains #{date}."
         raise WeekdayMismatchError
       end
     end
-    return datetime, type, option
+    result[:datetime] = datetime
+
+    result[:type]   = type
+
+    unless option.empty?
+      raise NotNumberError unless option =~ /^[0-9]+$/
+      result[:option] = option.to_i 
+    end
+
+    result[:description] = description
+
+    return result
   end
 
   def self.wday(str)

@@ -91,8 +91,9 @@ class Sculd::Manager
         #HIGHLINE.say("  <%= color(#{date.to_s} #{WEEKDAYS[date.wday]}, :white, :red) %>")
         #hl.say("  <%= color('red', :red) %>!")
         #io.puts str
-        events.sort_by{|i| i.datetime}.each do |job|
-          io.puts "    #{job.description.strip}"
+        events.sort_by{|i| i.datetime}.each do |event|
+          #pp event
+          io.puts "    #{event.description.strip}"
         end
       else
         io.puts "    (no plan)"
