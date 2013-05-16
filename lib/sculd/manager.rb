@@ -117,7 +117,7 @@ class Sculd::Manager
           #io.puts "    #{event.description.strip}"
         end
       else
-        io.puts "    (no plan)"
+        io.puts "    (no event)"
       end
       io.puts
     end
