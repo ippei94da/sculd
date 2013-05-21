@@ -2,6 +2,9 @@
 
 == Master
 
+== Version 0.1.1 [2013-05-21] released
+* Bugfix of show_task.
+
 == Version 0.1.0 [2013-05-17] released
 * Use test-unit alternatively to rspec.
 * Enable to use directory, ~/.sculd alternatively to ~/.sculd.dat

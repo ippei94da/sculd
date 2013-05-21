@@ -10,6 +10,9 @@ class TC_Deadline < Test::Unit::TestCase
 
     date = DateTime.new(2012, 10, 15, 23, 45, 00)
     @d01 = Sculd::Plan::Deadline.new(date, false, 10, 'deadlineA')
+
+    date = Date.new(2012, 10, 15)
+    @d02 = Sculd::Plan::Deadline.new(date, false, nil, 'deadlineA')
   end
 
   #context 'Date[2012-10-15], 10, [2012-10-15]!10 deadlineA' do
@@ -26,6 +29,22 @@ class TC_Deadline < Test::Unit::TestCase
 
     today = Date.new(2012, 10,  1)
     assert_equal(0, @d00.priority(today))
+
+
+    today = Date.new(2012, 10,  1)
+    assert_equal(    0, @d02.priority(today))
+
+    today = Date.new(2012, 10,  8)
+    assert_equal(10000, @d02.priority(today))
+
+    today = Date.new(2012, 10, 10)
+    assert_equal(12857, @d02.priority(today))
+
+    today = Date.new(2012, 10, 15)
+    assert_equal(20000, @d02.priority(today))
+
+    today = Date.new(2012, 10, 20)
+    assert_equal(20000, @d02.priority(today))
   end
 
   def test_event_dates
