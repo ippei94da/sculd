@@ -13,6 +13,10 @@ class TC_Deadline < Test::Unit::TestCase
 
     date = Date.new(2012, 10, 15)
     @d02 = Sculd::Plan::Deadline.new(date, false, nil, 'deadlineA')
+
+    #date = Date.new(2012, 10, 15)
+    #@d03 = Sculd::Plan::Deadline.new(date, false, 0, 'deadlineA')
+
   end
 
   #context 'Date[2012-10-15], 10, [2012-10-15]!10 deadlineA' do
