@@ -83,11 +83,11 @@ class Sculd::Manager
 
       case date.wday
       when 0
-        hl.say("  <%= color('#{str}', :white, :on_red) %>")
+        hl.say("  <%= color('#{str}', :white, :on_red) %>\n")
       when 6
-        hl.say("  <%= color('#{str}', :white, :on_blue) %>")
+        hl.say("  <%= color('#{str}', :white, :on_blue) %>\n")
       else
-        hl.say("  <%= color('#{str}', :white, :on_black) %>")
+        hl.say("  <%= color('#{str}', :white, :on_black) %>\n")
       end
 
       events = d_e[date]
